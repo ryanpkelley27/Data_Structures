@@ -9,24 +9,19 @@ int main(int argc, char* argv) {
 	auto c = list.push_back("C");
 	auto d = list.push_back("D");
 	auto e = list.push_back("E");
-	list.print();
-	std::cout << std::endl;
+	std::cout << list << std::endl;
 
 	list.pop();//remove e
-	list.print();
-	std::cout << std::endl;
+	std::cout << list << std::endl;
 
 	list.remove(b);//remove b
-	list.print();
-	std::cout << std::endl;
+	std::cout << list << std::endl;
 
 	list.insert(c, "F");
-	list.print();
-	std::cout << std::endl;
+	std::cout << list << std::endl;
 
 	list.move(a, d);
-	list.print();
-	std::cout << std::endl;
+	std::cout << list << std::endl;
 
 	return 0;
 }
