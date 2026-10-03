@@ -80,7 +80,7 @@ public:
 		return l;
 	}
 	//inserts payload before given node
-	void insert(std::shared_ptr<List_Node<T>> destination, const T& load) {
+	std::shared_ptr<List_Node<T>> insert(std::shared_ptr<List_Node<T>> destination, const T& load) {
 		std::shared_ptr<List_Node<T>> new_node = std::make_shared<List_Node<T>>(load);
 		if (destination->prev!=nullptr) {
 			(destination->prev)->next = new_node;
@@ -92,9 +92,16 @@ public:
 		if (destination==head) {
 			head = new_node;
 		}
+
+		return new_node;
 	}
 	//moves node to before destination
 	void move(std::shared_ptr<List_Node<T>> destination, std::shared_ptr<List_Node<T>> node) {
+		//update tail
+		if (node == tail) {
+			tail = node->prev;
+		}
+
 		//take node out
 		if (node->prev!=nullptr) {
 			node->prev->next = node->next;
@@ -111,15 +118,27 @@ public:
 		destination->prev = node;
 		node->next = destination;
 
+		//update head
 		if (destination==head) {
 			head = node;
 		}
 	}
-	//swaps the postion of 2 elements
-	void swap(std::shared_ptr<List_Node<T>> first, std::shared_ptr<List_Node<T>> second) {
+	//swaps the elements of two lists without moving elements
+	void swap(Linked_List<T>& other) {
+		//store temp head, tail, count
+		std::shared_ptr<List_Node<T>> temp_head = this->head;
+		std::shared_ptr<List_Node<T>> temp_tail = this->tail;
+		int temp_count = this->count;
 
+		//update this
+		this->head = other.head;
+		this->tail = other.tail;
+		this->count = other.count;
 
-		//update tail and head
+		//update other
+		other.head = temp_head;
+		other.tail = temp_tail;
+		other.count = temp_count;
 	}
 	auto front() {
 		return head;

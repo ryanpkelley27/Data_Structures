@@ -17,11 +17,26 @@ int main(int argc, char* argv) {
 	list.remove(b);//remove b
 	std::cout << list << std::endl;
 
-	list.insert(c, "F");
+	auto f = list.insert(c, "F");//puts "F" before "C"
 	std::cout << list << std::endl;
 
 	list.move(a, d);
 	std::cout << list << std::endl;
+
+	std::cout << "-----------------" << std::endl;
+	auto list2 = Linked_List<std::string>();
+	auto a2 = list2.push_back("1");
+	auto b2 = list2.push_back("2");
+	auto c2 = list2.push_back("3");
+	auto d2 = list2.push_back("4");
+	auto e2 = list2.push_back("5");
+
+	std::cout << list2 << std::endl;
+
+	list.swap(list2);
+
+	std::cout << list << std::endl;
+	std::cout << list2 << std::endl;
 
 	return 0;
 }
