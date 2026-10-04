@@ -140,6 +140,43 @@ public:
 		other.tail = temp_tail;
 		other.count = temp_count;
 	}
+	//reverses list
+	void reverse() {
+		//nothing to reverse
+		if (count==0) {
+			return;
+		}
+
+		//iteraste and switch next and prev
+		auto current = head;
+		auto temp = current->next;
+
+		while (current!=nullptr) {
+			temp = current->next;
+			current->next = current->prev;
+			current->prev = temp;
+
+			//increment current
+			current = current->prev;
+		}
+
+		//update head and tail
+		temp = head;
+		head = tail;
+		tail = temp;
+	}
+	//find based on value - return pointer to node
+	std::shared_ptr<List_Node<T>> find(T val) {
+		auto current = head;
+		while (current!=nullptr) {
+			if (current->load==val) {
+				return current;
+			}
+			current = current->next;
+		}
+
+		return nullptr;
+	}
 	auto front() {
 		return head;
 	}
@@ -156,6 +193,10 @@ public:
 //overload << operator for ostreams
 template <typename T>
 std::ostream& operator<<(std::ostream& out, const Linked_List<T>& ll) {
+	if (ll.count==0) {
+		out << "Empty" << std::endl;
+		return out;
+	}
 	std::shared_ptr<List_Node<T>> current = ll.head;
 	while (current != nullptr) {
 		if (current->prev != nullptr) {
