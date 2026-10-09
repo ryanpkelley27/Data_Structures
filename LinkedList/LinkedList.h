@@ -15,12 +15,12 @@ public:
 	std::shared_ptr<List_Node<T>> prev;
 	List_Node(T load, std::shared_ptr<List_Node<T>> next = nullptr, std::shared_ptr<List_Node<T>> prev = nullptr) : load(load), next(next), prev(prev) {}
 
-	template <typename T> friend std::ostream& operator<<(std::ostream& out, const std::shared_ptr<List_Node<T>>& ln);
+	template <typename T> friend std::ostream& operator<<(std::ostream& out, const std::shared_ptr<List_Node<T>> ln);
 	template <typename T> friend std::ostream& operator<<(std::ostream& out, const List_Node<T>& ln);
 };
 
 template <typename T>
-std::ostream& operator<<(std::ostream& out, const std::shared_ptr<List_Node<T>>& ln) {
+std::ostream& operator<<(std::ostream& out, const std::shared_ptr<List_Node<T>> ln) {
 	out << ln->load;
 	return out;
 }
@@ -43,12 +43,10 @@ public:
 		std::shared_ptr<List_Node<T>> new_node = std::make_shared<List_Node<T>>(load);
 		if (count == 0) {
 			head = new_node;
-			tail = new_node;
 		}
 		else {
 			tail->next = new_node;
 			new_node->prev = tail;
-			tail = new_node;
 		}
 		count++;
 		tail = new_node;
@@ -72,11 +70,13 @@ public:
 		if (node==tail) {
 			tail = p;
 		}
+		count--;
 	}
 	//removes tail node and returns value
 	T pop() {
 		T l = tail->load;
 		remove(tail);
+		count--;
 		return l;
 	}
 	//inserts payload before given node
@@ -93,6 +93,7 @@ public:
 			head = new_node;
 		}
 
+		count++;
 		return new_node;
 	}
 	//moves node to before destination
@@ -176,6 +177,12 @@ public:
 		}
 
 		return nullptr;
+	}
+	//empties list
+	void clear() {
+		head = nullptr;
+		tail = nullptr;
+		count = 0;
 	}
 	auto front() {
 		return head;
