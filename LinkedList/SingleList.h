@@ -13,11 +13,11 @@ public:
 	Single_Node<T>* next;
 	Single_Node(T load, Single_Node<T>* next = nullptr) : load(load), next(next) {}
 
-	template <typename T> friend std::ostream& operator<<(std::ostream& out, const Single_Node<T> const& ln);
+	template <typename T> friend std::ostream& operator<<(std::ostream& out, const Single_Node<T>& ln);
 };
 
 template <typename T>
-std::ostream& operator<<(std::ostream& out, const Single_Node<T> const& ln) {
+std::ostream& operator<<(std::ostream& out, const Single_Node<T>& ln) {
 	out << ln.load;
 	return out;
 }
@@ -31,14 +31,7 @@ private:
 public:
 	Single_List() {}
 	~Single_List() {
-		//free nodes
-		Single_Node<T>* current = head;
-		Single_Node<T>* next = nullptr;
-		while (current!=nullptr) {
-			next = current->next;
-			delete current;
-			current = next;
-		}
+		clear();
 	}
 	//add node to the end
 	Single_Node<T>* push_back(const T& load) {
@@ -63,10 +56,11 @@ public:
 		if (previous!=nullptr) {
 			previous->next = next;
 		}
-		else {//update head
+
+		//update head
+		if (previous == nullptr) {
 			head = next;
 		}
-
 		//update tail
 		if (next == nullptr) {
 			tail = previous;
@@ -83,11 +77,16 @@ public:
 	//inserts payload before given node
 	Single_Node<T>* insert(Single_Node<T>* destination, const T& load) {
 		Single_Node<T>* new_node = new Single_Node<T>(load);
+		Single_Node<T>* previous = find_previous(destination);
 
+		previous->next = new_node;
+		new_node->next = destination;
+
+		return new_node;
 	}
-	move() {}
-	swap() {}
-	reverse() {}
+	void move() {}
+	void swap() {}
+	void reverse() {}
 	//find previous node
 	Single_Node<T>* find_previous(Single_Node<T>* node) {
 		Single_Node<T>* current = head;
@@ -118,6 +117,22 @@ public:
 		}
 		return nullptr;//value not in list
 	}
+	//empties list
+	void clear() {
+		//free nodes
+		Single_Node<T>* current = head;
+		Single_Node<T>* next = nullptr;
+		while (current != nullptr) {
+			next = current->next;
+			delete current;
+			current = next;
+		}
+
+		//reset vars
+		count = 0;
+		head = nullptr;
+		tail = nullptr;
+	}
 	void front() {
 		return head;
 	}
@@ -140,15 +155,9 @@ std::ostream& operator<<(std::ostream& out, const Single_List<T>& sl) {
 	}
 	Single_Node<T>* current = sl.head;
 	while (current != nullptr) {
-		if (current->prev != nullptr) {
-			out << current->prev;
-		}
-		else {
-			out << " ";
-		}
-		out << ":" << current << ":";
+		out << *current << ":";
 		if (current->next != nullptr) {
-			out << current->next;
+			out << *(current->next);
 		}
 
 		out << std::endl;
