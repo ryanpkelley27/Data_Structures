@@ -41,7 +41,7 @@ public:
 	T pop();
 	//inserts payload before given node
 	Single_Node<T>* insert(Single_Node<T>* destination, const T& load);
-	void move();
+	void move(Single_Node<T>* destination, Single_Node<T>* node);
 	void swap();
 	void reverse();
 	//find previous node

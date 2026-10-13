@@ -60,7 +60,31 @@ Single_Node<T>* Single_List<T>::insert(Single_Node<T>* destination, const T& loa
 	return new_node;
 }
 
-template <typename T> void Single_List<T>::move() {}
+template <typename T> void Single_List<T>::move(Single_Node<T>* destination, Single_Node<T>* node) {
+	Single_Node<T>* prev = find_previous(node);
+	Single_Node<T>* destination_prev = find_previous(destination);
+
+	//update tail
+	if (node == tail) {
+		tail = prev;
+	}
+
+	//take node out
+	if (prev != nullptr) {
+		prev->next = node->next;
+	}
+
+	//put node before destination
+	if (destination_prev != nullptr) {
+		destination_prev->next = node;
+	}
+	node->next = destination;
+
+	//update head
+	if (destination == head) {
+		head = node;
+	}  
+}
 template <typename T> void Single_List<T>::swap() {}
 template <typename T> void Single_List<T>::reverse() {}
 
