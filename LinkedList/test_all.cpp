@@ -142,6 +142,8 @@ static void test_list_find(Linked_List<std::string> list) {
 	std::cout << found->load << std::endl;
 }
 
+//------------------------------------------------------------------------------------------------------------------------
+
 static void test_single_push_back(Single_List<std::string> list) {
 	list.clear();
 
@@ -207,17 +209,34 @@ static void test_single_insert(Single_List<std::string> list) {
 	std::cout << list << std::endl;
 }
 
+static void test_single_move(Single_List<std::string> list) {
+	list.clear();
+	auto a = list.push_back("A");
+	auto b = list.push_back("B");
+	auto c = list.push_back("C");
+	auto d = list.push_back("D");
+	auto e = list.push_back("E");
+
+
+	std::cout << "------------move(a, d)------------ - " << std::endl;
+	std::cout << list << std::endl;
+
+	list.move(a, d);
+
+	std::cout << list << std::endl;
+}
+
 int main(int argc, char* argv) {
-	/*auto list = Linked_List<std::string>();
+	auto list = Linked_List<std::string>();
 
 	test_list_push_back(list);
-	test_list_pop();
+	test_list_pop(list);
 	test_list_remove(list);
 	test_list_insert(list);
 	test_list_move(list);
 	test_list_swap(list);
 	test_list_reverse(list);
-	test_list_find(list);*/
+	test_list_find(list);
 
 	auto single = Single_List<std::string>();
 
@@ -225,7 +244,7 @@ int main(int argc, char* argv) {
 	test_single_pop(single);
 	test_single_remove(single);
 	test_single_insert(single);
-
+	test_single_move(single);
 
 	return 0;
 }
