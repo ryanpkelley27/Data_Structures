@@ -1,17 +1,27 @@
 #pragma once
+#ifdef _DEBUG
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+#else
+#define DBG_NEW new
+#endif
+
 #include "LinkedList.h"
 
 //appends a new node to the end
 template <typename T>
 std::shared_ptr<List_Node<T>> Linked_List<T>::push_back(const T& load) {
 	std::shared_ptr<List_Node<T>> new_node = std::make_shared<List_Node<T>>(load);
+	 
 	if (count == 0) {
 		head = new_node;
 	}
 	else {
 		tail->next = new_node;
 		new_node->prev = tail;
-	}
+	} 
 	count++;
 	tail = new_node;
 	return new_node;

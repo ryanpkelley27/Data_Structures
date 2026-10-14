@@ -1,10 +1,20 @@
 #pragma once
+#ifdef _DEBUG
+	#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+	#define _CRTDBG_MAP_ALLOC
+	#include <stdlib.h>
+	#include <crtdbg.h>
+#else
+	#define DBG_NEW new
+#endif
+
 #include "SingleList.h"
 
 //add node to the end
 template <typename T>
 Single_Node<T>* Single_List<T>::push_back(const T& load) {
-	Single_Node<T>* new_node = new Single_Node(load);
+	Single_Node<T>* new_node = DBG_NEW Single_Node(load);
+
 	if (count == 0) {
 		head = new_node;
 		tail = new_node;
@@ -51,7 +61,7 @@ T Single_List<T>::pop() {
 //inserts payload before given node
 template <typename T>
 Single_Node<T>* Single_List<T>::insert(Single_Node<T>* destination, const T& load) {
-	Single_Node<T>* new_node = new Single_Node<T>(load);
+	Single_Node<T>* new_node = DBG_NEW Single_Node<T>(load);
 	Single_Node<T>* previous = find_previous(destination);
 
 	previous->next = new_node;

@@ -1,23 +1,33 @@
+#include "Windows.h"//for OutputDebugString
+#ifdef _DEBUG
+	#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+	#define _CRTDBG_MAP_ALLOC
+	#include <stdlib.h>
+	#include <crtdbg.h>
+#else
+	#define DBG_NEW new
+#endif
+
 #include "LinkedList.h"
 #include "SingleList.h"
 #include <iostream>
 
-static void test_list_push_back(Linked_List<std::string> list) {
+static void test_list_push_back(Linked_List<std::string>& list) {
 	list.clear();
 
 	std::cout << "------------push_back()-------------" << std::endl;
 	std::cout << list << std::endl;
 
-	auto a = list.push_back("A");
-	auto b = list.push_back("B");
-	auto c = list.push_back("C");
-	auto d = list.push_back("D");
-	auto e = list.push_back("E");
+	list.push_back("A");
+	list.push_back("B");
+	list.push_back("C");
+	list.push_back("D");
+	list.push_back("E");
 	
 	std::cout << list << std::endl;
 }
 
-static void test_list_pop(Linked_List<std::string> list) {
+static void test_list_pop(Linked_List<std::string>& list) {
 	list.clear();
 	auto a = list.push_back("A");
 	auto b = list.push_back("B");
@@ -33,7 +43,7 @@ static void test_list_pop(Linked_List<std::string> list) {
 	std::cout << list << std::endl;
 }
 
-static void test_list_remove(Linked_List<std::string> list) {
+static void test_list_remove(Linked_List<std::string>& list) {
 	list.clear();
 	auto a = list.push_back("A");
 	auto b = list.push_back("B");
@@ -49,7 +59,7 @@ static void test_list_remove(Linked_List<std::string> list) {
 	std::cout << list << std::endl;
 }
 
-static void test_list_insert(Linked_List<std::string> list) {
+static void test_list_insert(Linked_List<std::string>& list) {
 	list.clear();
 
 	auto a = list.push_back("A");
@@ -67,7 +77,7 @@ static void test_list_insert(Linked_List<std::string> list) {
 	std::cout << list << std::endl;
 }
 
-static void test_list_move(Linked_List<std::string> list) {
+static void test_list_move(Linked_List<std::string>& list) {
 	list.clear();
 	auto a = list.push_back("A");
 	auto b = list.push_back("B");
@@ -84,7 +94,7 @@ static void test_list_move(Linked_List<std::string> list) {
 	std::cout << list << std::endl;
 }
 
-static void test_list_swap(Linked_List<std::string> list) {
+static void test_list_swap(Linked_List<std::string>& list) {
 	list.clear();
 	auto a = list.push_back("A");
 	auto b = list.push_back("B");
@@ -110,7 +120,7 @@ static void test_list_swap(Linked_List<std::string> list) {
 	std::cout << list2 << std::endl;
 }
 
-static void test_list_reverse(Linked_List<std::string> list) {
+static void test_list_reverse(Linked_List<std::string>& list) {
 	list.clear();
 	auto a = list.push_back("A");
 	auto b = list.push_back("B");
@@ -126,7 +136,7 @@ static void test_list_reverse(Linked_List<std::string> list) {
 	std::cout << list << std::endl;
 }
 
-static void test_list_find(Linked_List<std::string> list) {
+static void test_list_find(Linked_List<std::string>& list) {
 	list.clear();
 	auto a = list.push_back("A");
 	auto b = list.push_back("B");
@@ -144,7 +154,7 @@ static void test_list_find(Linked_List<std::string> list) {
 
 //------------------------------------------------------------------------------------------------------------------------
 
-static void test_single_push_back(Single_List<std::string> list) {
+static void test_single_push_back(Single_List<std::string>& list) {
 	list.clear();
 
 	std::cout << "------------push_back()-------------" << std::endl;
@@ -159,7 +169,7 @@ static void test_single_push_back(Single_List<std::string> list) {
 	std::cout << list << std::endl;
 }
 
-static void test_single_pop(Single_List<std::string> list) {
+static void test_single_pop(Single_List<std::string>& list) {
 	list.clear();
 	auto a = list.push_back("A");
 	auto b = list.push_back("B");
@@ -175,7 +185,7 @@ static void test_single_pop(Single_List<std::string> list) {
 	std::cout << list << std::endl;
 }
 
-static void test_single_remove(Single_List<std::string> list) {
+static void test_single_remove(Single_List<std::string>& list) {
 	list.clear();
 	auto a = list.push_back("A");
 	auto b = list.push_back("B");
@@ -191,7 +201,7 @@ static void test_single_remove(Single_List<std::string> list) {
 	std::cout << list << std::endl;
 }
 
-static void test_single_insert(Single_List<std::string> list) {
+static void test_single_insert(Single_List<std::string>& list) {
 	list.clear();
 
 	auto a = list.push_back("A");
@@ -209,7 +219,7 @@ static void test_single_insert(Single_List<std::string> list) {
 	std::cout << list << std::endl;
 }
 
-static void test_single_move(Single_List<std::string> list) {
+static void test_single_move(Single_List<std::string>& list) {
 	list.clear();
 	auto a = list.push_back("A");
 	auto b = list.push_back("B");
@@ -227,6 +237,13 @@ static void test_single_move(Single_List<std::string> list) {
 }
 
 int main(int argc, char* argv) {
+	_CrtMemState s_1;
+	_CrtMemState s_2;
+	_CrtMemState s_3;
+	_CrtMemState s_diff;
+
+	_CrtMemCheckpoint(&s_1);
+
 	auto list = Linked_List<std::string>();
 
 	test_list_push_back(list);
@@ -237,6 +254,9 @@ int main(int argc, char* argv) {
 	test_list_swap(list);
 	test_list_reverse(list);
 	test_list_find(list);
+	list.clear();
+	
+	_CrtMemCheckpoint(&s_2);
 
 	auto single = Single_List<std::string>();
 
@@ -245,6 +265,28 @@ int main(int argc, char* argv) {
 	test_single_remove(single);
 	test_single_insert(single);
 	test_single_move(single);
+	single.clear();
+
+	_CrtMemCheckpoint(&s_3);
+
+	OutputDebugString(L"------------Doubly Linked List------------\n");
+	if (_CrtMemDifference(&s_diff, &s_1, &s_2)) {
+		_CrtMemDumpStatistics(&s_diff);
+	}
+	else {
+		OutputDebugString(L"No Leaks Detected\n");
+	}
+
+	OutputDebugString(L"------------Singly Linked List------------\n");
+	if (_CrtMemDifference(&s_diff, &s_2, &s_3)) {
+		
+		_CrtMemDumpStatistics(&s_diff);
+	}
+	else {
+		OutputDebugString(L"No Leaks Detected\n");
+	}
+
+	//_CrtDumpMemoryLeaks();
 
 	return 0;
 }

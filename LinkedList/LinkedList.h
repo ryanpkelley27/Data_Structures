@@ -1,4 +1,13 @@
 #pragma once
+#ifdef _DEBUG
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+#else
+#define DBG_NEW new
+#endif
+
 #include <memory>
 #include <iostream>
 #include <string>
@@ -36,7 +45,7 @@ private:
 	std::shared_ptr<List_Node<T>> head = nullptr;
 	std::shared_ptr<List_Node<T>> tail = nullptr;
 	int count = 0;
-public:
+public: 
 	Linked_List(){}
 	//appends a new node to the end
 	std::shared_ptr<List_Node<T>> push_back(const T& load);
